@@ -1,4 +1,10 @@
 jQuery(document).ready(function($){ 
+	function commaCorrection(val) {
+		var newVal = val.replace(/,\s*$/, "");
+		newVal = newVal.replace(/^,/, '');
+		newVal = newVal.replace(/,,/, ',');
+		return newVal;
+	}
 	function getIds(holder){
 		var i = 0,
 		ids = [],
@@ -56,11 +62,20 @@ jQuery(document).ready(function($){
 			holder.html('');
 			input.val('');
 		})
-		holder.sortable({
-			axis: "x",
-		}).on( "sortstop", function( event, ui ) {
+		holder.sortable({}).on( "sortstop", function( event, ui ) {
 			var ids = getIds(holder);
 			input.val(ids);
 		});
 	});
+	$('body').off().on('click', '.wolfie-close', function(e){
+		e.preventDefault();
+		var t = $(this);
+		var id = t.parent().data('id');
+		var input = t.closest('.wolfie-form-control').find('input');
+		val = input.val();
+		var newVal = val.replace(id, '')
+		newVal = commaCorrection(newVal);
+		input.val(newVal);
+		var id = t.parent().remove();
+	})
 });

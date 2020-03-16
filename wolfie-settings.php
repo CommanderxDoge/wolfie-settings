@@ -9,11 +9,9 @@ Author URI: https://github.com/CommanderxDoge/
 Text Domain: ws
 License: MIT
 */
-if(!function_exists('unifyString')) {
-	function unifyString($content){
-		return $content = str_replace(' ', '_', (strtolower($content)));
-	}
-}
+
+define( 'WS_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 class Wolfie_settings {
 	public $settings;
 	public $settingsArray;
@@ -25,8 +23,12 @@ class Wolfie_settings {
 		wp_register_script('wolfie-file-picker', plugin_dir_url(__FILE__) . '/assets/js/wolfie-file-picker.js', array('jquery'));
 		wp_register_script('wolfie-gallery-picker', plugin_dir_url(__FILE__) . '/assets/js/wolfie-gallery.js', array('jquery'));
 		wp_register_script('jquery-sortable', plugin_dir_url(__FILE__) . '/assets/js/jquery-ui.min.js', array('jquery','wolfie-gallery-picker'));
+		wp_register_script('wolfie-colorpicker-alpha-js', plugin_dir_url(__FILE__) . '/assets/js/wp-color-picker-alpha.min.js', array('jquery','wp-color-picker'), false, true );
 		wp_register_style('wolfie-settings-css', plugin_dir_url(__FILE__) . '/assets/css/wolfie-settings.css');
-		wp_enqueue_style('wolfie-admin', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
+		//enqueue everywhere scripts
+		wp_enqueue_script('wolfie-admin-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js');
+		wp_enqueue_style( 'wp-color-picker' ); 
+		wp_enqueue_style('wolfie-admin-css', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
 	}
 	public function register_settings() {
 		register_setting( $this->settings, $this->settings );
@@ -52,70 +54,40 @@ class Wolfie_settings {
 		submit_button();
 		echo '</form>';
 	}
-
-	public function imagePicker($name, $label=null){
-		wp_enqueue_media();
-		wp_enqueue_style('wolfie-settings-css');
-		wp_enqueue_script('wolfie-image-picker');
-		$value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
-		echo '<div class="wolfie-form-control">';
-		echo '<label>'.$label.'</label>';
-		echo '<input class="image" name="'.$this->settings.'['.$name.']" value="'.$value.'" type="text" hidden>';
-		echo '<div class="actions"><button class="add">Add Image</button><button class="remove">Remove Image</button></div><div class="image-holder holder">';
-		if(!empty($value)) {
-			echo '<div class="item" data-id="'.$value.'">';
-			echo $thumb = wp_get_attachment_image( $value, [100,100] );
-			echo '<a href="#" class="wolfie-close"></a>';
-			echo '</div>';
+	public function imagePicker($name, $label=null, $print=false){
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/image-picker.php');
+		if($print === true) {
+			echo $content;
 		}
-		echo '</div>';
-		echo '</div>';
+		return $content;
 	}
-	public function filePicker($name, $label=null){
-		wp_enqueue_media();
-		wp_enqueue_script('wolfie-file-picker');
-		wp_enqueue_style('wolfie-settings-css');
-		$value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
-		echo '<div class="wolfie-form-control">';
-		echo '<label>'.$label.'</label>';
-		echo '<input class="file" name="'.$this->settings.'['.$name.']" value="'.$value.'" type="text" hidden>';
-		echo '<div class="actions"><button class="add">Add File</button><button class="remove">Remove File</button></div><div class="file-holder holder">';
-		if(!empty($value)) {
-			$url = wp_get_attachment_url($value);
-			$attachment_title = get_the_title($value);
-			if( !strpos($url, '.png') || !strpos($url, '.jpg') || !strpos($url, '.jpeg') || !strpos($url, '.svg') ) {
-				$img = '<img src="'.site_url('/').'/wp-includes/images/media/document.png" class="icon file" alt="">';
-			} else {
-				$img = '<img src="'.$url.'">';
-			}
-			echo '<div class="item" data-id="'.$value.'">'.$img.'<span class="title">'.$attachment_title.'</span>';
-			echo '<a href="#" class="wolfie-close"></a>';
-			echo '</div>';
+	public function filePicker($name, $label=null, $print=false){
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/file-picker.php');
+		if($print === true) {
+			echo $content;
 		}
-		echo '</div>';
-		echo '</div>';
+		return $content;
 	}
-	public function galleryPicker($name, $label=null) {
-		wp_enqueue_media();
-		wp_enqueue_script('jquery-sortable');
-		wp_enqueue_style('wolfie-settings-css');
-		wp_enqueue_script('wolfie-gallery-picker');
-		$value = (isset($this->settingsArray[$name])) ? $this->settingsArray[$name] : '' ;
-		echo '<div class="wolfie-form-control">';
-		echo '<label>'.$label.'</label>';
-		echo '<input class="gallery-wolfie" name="'.$this->settings.'['.$name.']" value="'.$value.'" type="text" hidden>';
-		echo '<div class="actions"><button class="add">Add Images</button><button class="remove">Remove gallery</button></div><div class="images-holder holder">';
-		if(!empty($value)) {
-			$value = explode(',', $value);
-			foreach ($value as $index => $id) {
-				echo '<div class="item" data-id="'.$id.'">';
-				echo $thumb = wp_get_attachment_image( $id, [100,100] );
-				echo '<a href="#" class="wolfie-close"></a>';
-				echo '</div>';
-			}
+	public function textPicker($name, $label=null, $print=false){
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/text-picker.php');
+		if($print === true) {
+			echo $content;
 		}
-		echo '</div>';
-		echo '</div>';
+		return $content;
+	}
+	public function colorPicker($name, $label=null, $print=false){
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/color-picker.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
+	}
+	public function galleryPicker($name, $label=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/gallery-picker.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
 	}	
 }
 $ws = new Wolfie_settings();
@@ -128,7 +100,6 @@ class Wolfie_page {
 	public $customFields; 					//its array
 	public $dashicon;						//its string
 	public $settings='wolfie_settings'; 	//its string
-
 	public function setSettings($settings){
 		$this->settings = $settings;
 	}
@@ -136,6 +107,7 @@ class Wolfie_page {
 		$this->customFields = $customFields;
 	}
 	public function setPage($pageName, $args, $dashicon=''){
+		include( plugin_dir_path( __FILE__ ) . '/inc/helpers/helpers.php');
 		if(!empty($args['settings'])){
 			$this->settings = $args['settings'];
 		} else  {
@@ -166,38 +138,103 @@ class Wolfie_page {
 			//here register settings if settings are set
 			$ws = new Wolfie_settings();
 			$ws->setSettings($settings);
-			$fn = function() use($args, $ws){ 
-				if(empty( $args['custom_fields'])) {
-					// $customFields = $this->customFields;
-				} else {
-					$customFields = $args['custom_fields'];
-				}
-				//print args
-
-				// echo '<pre>';
-				// print_r( $args );
-				// echo '</pre>';
-
+			$fn = function() use($args, $ws, $pageName){ 
+				$customFields = is_fields($args);
 				$unified = unifyString($args['page_name']);
+				$first = true;
 				do_action('wolfie_page_' . $unified);
 				if(isset($args['page_body']) && $args['page_body'] === false) 
 					return;
-				//settings form
-				$ws->startForm();
-				if(!empty($customFields)) {
+				// set content to tabs
+				if(is_fields($args)) {
+					$tabs = [
+						'general' => [],
+					];
+					$i = 0;
 					foreach ($customFields as $index => $array) {
-						if($array['type'] === 'image'){
-							$ws->imagePicker($array['name'], $array['desc']);
-						} elseif($array['type'] === 'gallery') {
-							$ws->galleryPicker($array['name'], $array['desc']);
-						} elseif($array['type'] === 'file') {
-							$ws->filePicker($array['name'], $array['desc']);
-						} else {
-
+						$tab_name = (isset($array['tab'])) ? $array['tab'] : 'general' ;
+						if($tab_name) {
+							if($array['type'] === 'image'){
+								$field = $ws->imagePicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'gallery') {
+								$field = $ws->galleryPicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'file') {
+								$field = $ws->filePicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'text') {
+								$field = $ws->textPicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'color') {
+								$field = $ws->colorPicker($array['name'], $array['desc']);
+							} else {
+								$field = '';
+							}
+							$tabs[$tab_name][$i] = $field;
+							$i++;
 						}
 					}
 				}
+				//set html on page
+				echo '<div class="wolfie-container">';
+				echo '<h1>'. $pageName .'</h1>';
+				echo '<div class="wolfie-row">';
+				if(is_tabs($args)) {					
+					echo '<div class="wolfie-col col-2">';
+					if(!empty($customFields)) {						
+						echo '<ul class="wolfie-tabs">';
+						foreach($tabs as $tab_name => $arr ) {
+							$active = ($first) ? 'active' : '' ;
+							$tab_name_u = unifyString($tab_name);
+							echo '<li class="'.$tab_name.' '.$active.'" data-tab="wolfie_'.$tab_name_u.'">';
+							echo $tab_name;
+							echo '</li>';
+							$first = false;
+						}
+						echo '</ul>';
+					}
+					echo '</div>';
+				}
+				echo '<div class="wolfie-col col-7">';
+				echo '<div class="wolfie-settings">';
+				$ws->startForm();
+				if(is_fields($args)) {
+					foreach($tabs as $tab_name => $arr ) {
+						$active = ($first) ? 'active' : '' ;
+						$tab_name_u = unifyString($tab_name);
+						echo '<div class="wolfie_tab_container wolfie_'.$tab_name_u.' '.$active.'">';
+						if(is_tabs($args)) {
+							echo '<h2 class="tab-title">' . $tab_name . '</h2>';
+						}
+						foreach ($arr as $index => $field) {
+							echo $field;
+						}
+						echo '</div>';
+						$first = false;
+					}
+				}
 				$ws->endForm();
+				echo '</div>';
+				echo '</div>';
+				echo '<div class="wolfie-col col-3">'; ?>
+				<div class="wolfie-information">
+					<div class="box">
+						<div class="wolfie-header">
+							<div class="wolfie-row">
+								<div class="quote">
+									<i class="fa fa-quote-right" aria-hidden="true"></i>
+									<p>Standing on the giants shoulders, let you see more!</p>
+								</div><!-- /quote -->
+								<div class="owner-wrapper" style="width:80px;height:80px;">
+									<img class="owner" src="<?php echo WS_PLUGIN_URL . 'assets/img/pawel-witek.jpg' ?>">
+								</div><!-- /owner-wrapper -->
+							</div><!-- /wolfie-row -->
+							<p style="text-align: right;">Paweł Witek CEO at <a href="https://wolfiesites.com">wolfiesites.com</a></p>
+						</div><!-- /header -->
+					</div><!-- /box -->
+				</div><!-- /wolfie-main-options -->
+				<?php
+				do_action('wolfie_information');
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
 			};
 			add_menu_page( 
 				__( $pageName, 'wolfie_settings' ),
@@ -214,24 +251,41 @@ class Wolfie_page {
 
 $pw = new Wolfie_page();
 $args = [
-	'page_name' => 'Wolfie Settings',
-	'page_body' => true, //if set to false options will not be displayed. You can use action hook wolfie_page_['page_name']
+	'page_name' => 'Wolfie Settings', //required
+	'page_body' => true, //optional if set to false options wont show. You can use action hook wolfie_page_['page_name']
+	'tabs' => true, //optional default true
 	'settings' => 'wolfie_settings',
 	'custom_fields' => [
 		[	
+			'type' => 'text',
+			'name' => 'to-jest-text',
+			'desc' => 'Add some text',
+		],
+		[	
+			'type' => 'color',
+			'name' => 'colorpicker',
+			'desc' => 'Pick some color',
+		],
+		[	
+			'type' => 'whatever',
+			'name' => 'colorpicker2',
+			'desc' => 'Pick some color2',
+		],
+		[	
 			'type' => 'image',
 			'name' => 'test',
-			'desc' => 'Add image for the ulotka'
+			'desc' => 'Add image for the ulotka',
 		],
 		[	
 			'type' => 'file',
 			'name' => 'test2',
-			'desc' => 'Add image for the ulotka 2'
+			'desc' => 'Add image for the ulotka 2', //optional
+			'tab' => 'social icons'
 		],
 		[	
 			'type' => 'gallery',
 			'name' => 'test3',
-			'desc' => 'Add images to display on kontakt page'
+			'desc' => 'Add images to display on kontakt page', //optional
 		],
 	],
 	'dashicon' => plugin_dir_url(__FILE__) . 'assets/img/wolf.png'
@@ -249,6 +303,7 @@ $pw = new Wolfie_page();
 $args = [
 	'page_name' => 'Incolt Settings',
 	'page_body' => true, //if set to false options will not be displayed. You can use action hook wolfie_page_['page_name']
+	'tabs' => false,
 	'settings' => 'incolt_settings',
 	'custom_fields' => [
 		[	

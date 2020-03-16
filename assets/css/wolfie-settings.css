@@ -2,7 +2,11 @@ button {
 	cursor:pointer;
 }
 .wolfie-form-control {
-	margin: 20px 0px;
+	padding: 15px 0px;
+	border-bottom: 1px solid lightgrey;
+}
+.wolfie-form-control label {
+	display: block;
 }
 .file-holder, .images-holder, .image-holder {
 	display: flex;
@@ -17,9 +21,7 @@ button {
 	margin-right: 5px;
 	margin-top: 5px;
 	position: relative;
-}
-.file-holder .item {
-	border-radius: 0px;
+	border: 1px solid lightgrey;
 }
 .file-holder img:not(.file), .images-holder img, .image-holder img {
 	height: 100%;
@@ -32,6 +34,7 @@ button {
 	align-items: center;
 	justify-content: flex-end;
 	position: relative;
+	border: 1px solid lightgrey;
 }
 .file-holder .item img {
 	object-fit: contain;
@@ -41,7 +44,7 @@ button {
 	left: 0;
 	right: 0;
 	margin: auto;
-	z-index: -1;
+	z-index: 0;
 }
 .file-holder .item .title {
 	box-sizing: border-box;
@@ -50,45 +53,188 @@ button {
 	padding: 5px;
 	white-space: wrap;
 	overflow-wrap: break-word;
-	background: white;
+	background: lightgrey;
+	line-height: 10px;
+	font-size: 10px;
+	position: relative;
 }
 .wolfie-close {
-  transition:0.3s;
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  min-width: 20px;
-  min-height: 20px;
-  width:20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  opacity: 0.3;
-  z-index: 5;
+	transition:0.3s;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	min-width: 20px;
+	min-height: 20px;
+	width:20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	opacity: 0.3;
+	z-index: 5;
 }
 .wolfie-close:hover {
-  opacity: 1;
-  background: red;
+	opacity: 1;
+	background: red;
 }
 .wolfie-close:before, .wolfie-close:after {
-  content: ' ';
-  position: absolute;
-  left: 8px;
-  height: 12px;
-  width: 4px;
-  background-color: #333;
+	content: ' ';
+	position: absolute;
+	left: 8px;
+	height: 12px;
+	width: 4px;
+	background-color: #333;
 }
 .wolfie-close:before {
-  transform: rotate(45deg);
+	transform: rotate(45deg);
 }
 .wolfie-close:after {
-  transform: rotate(-45deg);
+	transform: rotate(-45deg);
 }
 .wolfie-close:hover:after, .wolfie-close:hover:before {
 	background: white !important;
 }
 .images-holder .item {
 	cursor:pointer;
+}
+.wolfie-container {
+	padding: 0 20px;
+	overflow-x: hidden;
+}
+.wolfie-row {
+	display: flex;
+	justify-content: space-between;
+	width: calc(100% + 15px);
+	/*position: relative;
+	left: -15px;*/
+}
+.wolfie-col {
+	box-sizing: border-box;
+}
+.wolfie-col.col-12 {
+	width: 100%;
+}
+.wolfie-col.col-11 {
+	width: calc( 91.4% - 8px );
+	min-width: calc( 91.4% - 8px );
+	max-width: calc( 91.4% - 8px );
+}
+.wolfie-col.col-10 {
+	width: calc( 83% - 8px );
+	min-width: calc( 83% - 8px );
+	max-width: calc( 83% - 8px );
+}
+.wolfie-col.col-9 {
+	width: calc( 75% - 8px );
+	min-width: calc( 75% - 8px );
+	max-width: calc( 75% - 8px );
+}
+.wolfie-col.col-8 {
+	width: calc( 66.6% - 8px );
+	min-width: calc( 66.6% - 8px );
+	max-width: calc( 66.6% - 8px );
+}
+.wolfie-col.col-7 {
+	width: calc( 58.3% - 8px );
+	min-width: calc( 58.3% - 8px );
+	max-width: calc( 58.3% - 8px );
+}
+.wolfie-col.col-6 {
+	width: calc( 50% - 8px );
+	min-width: calc( 50% - 8px );
+	max-width: calc( 50% - 8px );
+}
+.wolfie-col.col-5 {
+	width: calc( 41.6% - 8px );
+	min-width: calc( 41.6% - 8px );
+	max-width: calc( 41.6% - 8px );
+}
+.wolfie-col.col-4 {
+	width: calc( 33.3% - 8px );
+	min-width: calc( 33.3% - 8px );
+	max-width: calc( 33.3% - 8px );
+}
+.wolfie-col.col-3 {
+	width: calc( 25% - 8px );
+	min-width: calc( 25% - 8px );
+	max-width: calc( 25% - 8px );
+}
+.wolfie-col.col-2 {
+	width: calc( 16.6% - 8px );
+	min-width: calc( 16.6% - 8px );
+	max-width: calc( 16.6% - 8px );
+}
+.wolfie-col.col-1 {
+	width: calc( 8.3% - 8px );
+	min-width: calc( 8.3% - 8px );
+	max-width: calc( 8.3% - 8px );
+}
+.wolfie-tabs {
+	margin:0;
+	padding:0;
+}
+.wolfie-tabs li.active {
+	background:blue !important;
+	color:white !important;
+}
+.wolfie-tabs li {
+	margin-bottom: 0px;
+	transition:0.3s;
+	background:lightgrey;
+	cursor: pointer;
+	padding: 8px 20px;
+	border:1px solid black;
+	border-top:none;
+	text-align:center;
+	color:black;
+}
+.wolfie-tabs li:first-child {
+	border-top: 1px solid black;
+}
+.wolfie-tabs li:hover {
+	background: lightblue;
+	color:black;
+}
+.wolfie_tab_container {
+	display: none;
+	padding: 0 15px;
+}
+.wolfie_tab_container.active {
+	display: block;
+}
+.tab-title {
+	margin-top:0;
+}
+.text {
+	display: block;
+	width:100%;
+}
+.wolfie-settings {
+	background: white;
+	padding: 8px 10px;
+}
+.wolfie-information {
+	width: 100%;
+	max-width: 500px;
+}
+.wolfie-information .box {
+	max-width: 400px;
+	background: lightblue;
+	box-sizing: border-box;
+	padding: 10px 20px;
+}
+.wolfie-information .wolfie-header .wolfie-row {
+	display: flex;
+	justify-content: space-between;
+}
+.wolfie-information .owner {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	object-position: bottom;
+	border-radius: 100%;
+}
+.wolfie-container .submit {
+	padding: 0 15px;
 }
