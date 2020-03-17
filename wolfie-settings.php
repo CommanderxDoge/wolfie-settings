@@ -27,6 +27,7 @@ class Wolfie_settings {
 		wp_register_style('wolfie-settings-css', plugin_dir_url(__FILE__) . '/assets/css/wolfie-settings.css');
 		//enqueue everywhere scripts
 		wp_register_script('wolfie-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js', array('jquery'));
+		wp_register_script('wolfie-switcher-js', plugin_dir_url(__FILE__) . '/assets/js/switcher.js', array('jquery'));
 		wp_enqueue_style( 'wp-color-picker' ); 
 		wp_enqueue_style('wolfie-admin-css', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
 	}
@@ -98,6 +99,20 @@ class Wolfie_settings {
 	}
 	public function dropdown($name, $label=null, $options=['map some options'], $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/dropdown.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
+	}
+	public function checkbox($name, $label=null, $checked=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/checkbox.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
+	}
+	public function radioimage($name, $label=null, $options=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/radioimage.php');
 		if($print === true) {
 			echo $content;
 		}
@@ -195,6 +210,8 @@ class Wolfie_page {
 									$options = $array['options'];
 									$field = $ws->dropdown($array['name'], $array['desc'],$array['options']);
 								}
+							} elseif($array['type'] === 'checkbox') {
+								$field = $ws->checkbox($array['name'], $array['desc']);
 							} else {
 								$field = '';
 							}
@@ -288,6 +305,11 @@ $args = [
 	'tabs' => true, //optional default true
 	'settings' => 'wolfie_settings',
 	'custom_fields' => [
+		[	
+			'type' => 'checkbox',
+			'name' => 'to-jest-checkbox',
+			'desc' => 'Czy menu sticky?',
+		],
 		[	
 			'type' => 'dropdown',
 			'name' => 'to-jest-dropdown',
