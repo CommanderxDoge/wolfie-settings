@@ -1,3 +1,6 @@
+.wolfie-fadeIn {
+	display: none;
+}
 button {
 	cursor:pointer;
 }
@@ -237,4 +240,14 @@ button {
 }
 .wolfie-container .submit {
 	padding: 0 15px;
+}
+.wolfie-container label {
+	font-weight: bold;
+}
+.wolfie-container select {
+	display: block;
+	font-weight: normal;
+}
+.wolfie-container input {
+	font-weight: normal;
 }

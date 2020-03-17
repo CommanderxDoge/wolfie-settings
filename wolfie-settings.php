@@ -26,7 +26,7 @@ class Wolfie_settings {
 		wp_register_script('wolfie-colorpicker-alpha-js', plugin_dir_url(__FILE__) . '/assets/js/wp-color-picker-alpha.min.js', array('jquery','wp-color-picker'), false, true );
 		wp_register_style('wolfie-settings-css', plugin_dir_url(__FILE__) . '/assets/css/wolfie-settings.css');
 		//enqueue everywhere scripts
-		wp_enqueue_script('wolfie-admin-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js');
+		wp_register_script('wolfie-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js', array('jquery'));
 		wp_enqueue_style( 'wp-color-picker' ); 
 		wp_enqueue_style('wolfie-admin-css', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
 	}
@@ -89,6 +89,20 @@ class Wolfie_settings {
 		}
 		return $content;
 	}	
+	public function editor($name, $label=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/editor-picker.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
+	}
+	public function dropdown($name, $label=null, $options=['map some options'], $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/dropdown.php');
+		if($print === true) {
+			echo $content;
+		}
+		return $content;
+	}
 }
 $ws = new Wolfie_settings();
 $ws->setSettings('wolfie_settings');
@@ -116,10 +130,17 @@ class Wolfie_page {
 		//this is main scope here settings should be registered but not fcking working
 		$wolfie_page_settings = new Wolfie_settings();
 		$wolfie_page_settings->setSettings('wolfie_settings');
-
 		$this->pageName = $pageName;
 		$this->dashicon = $dashicon;
 		$this->args = $args;
+		//localize wolfie.js for set cookie to each
+		add_action('admin_enqueue_scripts', function() use ($pageName){
+			if($_GET['page'] === $pageName) {
+				$pageName = unifyString($pageName);
+				$data = ['cookieName' => $pageName ];
+				wp_localize_script( 'wolfie-js', 'wolfie', $data );
+			}
+		});
 		add_action( 'admin_menu', function(){
 			$pageName = $this->pageName;
 			$dashicon = $this->dashicon;
@@ -138,6 +159,7 @@ class Wolfie_page {
 			//here register settings if settings are set
 			$ws = new Wolfie_settings();
 			$ws->setSettings($settings);
+			
 			$fn = function() use($args, $ws, $pageName){ 
 				$customFields = is_fields($args);
 				$unified = unifyString($args['page_name']);
@@ -164,6 +186,15 @@ class Wolfie_page {
 								$field = $ws->textPicker($array['name'], $array['desc']);
 							} elseif($array['type'] === 'color') {
 								$field = $ws->colorPicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'editor') {
+								$field = $ws->editor($array['name'], $array['desc']);
+							} elseif($array['type'] === 'dropdown') {
+								if(empty($array['options'])) {
+									$field = 'ERROR: Add some options to your dropdown!';
+								} else {
+									$options = $array['options'];
+									$field = $ws->dropdown($array['name'], $array['desc'],$array['options']);
+								}
 							} else {
 								$field = '';
 							}
@@ -172,8 +203,9 @@ class Wolfie_page {
 						}
 					}
 				}
+				wp_enqueue_script('wolfie-js');
 				//set html on page
-				echo '<div class="wolfie-container">';
+				echo '<div style="display:none;" class="wolfie-container wolfie-fadeIn">';
 				echo '<h1>'. $pageName .'</h1>';
 				echo '<div class="wolfie-row">';
 				if(is_tabs($args)) {					
@@ -246,7 +278,7 @@ class Wolfie_page {
 				99
 			); 
 		} );
-	}
+}
 }
 
 $pw = new Wolfie_page();
@@ -256,6 +288,31 @@ $args = [
 	'tabs' => true, //optional default true
 	'settings' => 'wolfie_settings',
 	'custom_fields' => [
+		[	
+			'type' => 'dropdown',
+			'name' => 'to-jest-dropdown',
+			'desc' => 'choose some options',
+			'options' => [
+				'google' => 'https://google.pl',  //label => value
+				'wolfie' => 'https://wolfie.com', //label => value
+				'xd' => 'https://kwejk.pl',		  //label => value
+			],
+		],
+		[	
+			'type' => 'dropdown',
+			'name' => 'to-jest-dropdown2',
+			'desc' => 'choose some options',
+			'options' => [
+				'gogle2' => 'https://google.pl',  //label => value
+				'wolfie2' => 'https://wolfie.com', //label => value
+				'xd2' => 'https://kwejk.pl',		  //label => value
+			],
+		],
+		[	
+			'type' => 'editor',
+			'name' => 'to-jest-editor',
+			'desc' => 'Add some text to Editor',
+		],
 		[	
 			'type' => 'text',
 			'name' => 'to-jest-text',
@@ -280,20 +337,23 @@ $args = [
 			'type' => 'file',
 			'name' => 'test2',
 			'desc' => 'Add image for the ulotka 2', //optional
-			'tab' => 'social icons'
 		],
 		[	
 			'type' => 'gallery',
 			'name' => 'test3',
 			'desc' => 'Add images to display on kontakt page', //optional
 		],
+		[	
+			'type' => 'text',
+			'name' => 'text-niesamowity',
+			'desc' => 'Add some text',
+			'tab' => 'typography'
+		],
 	],
 	'dashicon' => plugin_dir_url(__FILE__) . 'assets/img/wolf.png'
 ];
 $pw->setPage('Wolfie Settings', $args);
 //above default page settings
-
-
 
 
 /*
@@ -303,13 +363,18 @@ $pw = new Wolfie_page();
 $args = [
 	'page_name' => 'Incolt Settings',
 	'page_body' => true, //if set to false options will not be displayed. You can use action hook wolfie_page_['page_name']
-	'tabs' => false,
+	'tabs' => false, // if tabs false only general content tab will be displayed
 	'settings' => 'incolt_settings',
 	'custom_fields' => [
 		[	
 			'type' => 'image',
 			'name' => 'test',
-			'desc' => 'Add image for the ulotka'
+			'desc' => 'Add image for the ulotka',
+		],
+		[	
+			'type' => 'image',
+			'name' => 'test-image-2',
+			'desc' => 'Add image for the ulotka',
 		],
 	],
 	''
