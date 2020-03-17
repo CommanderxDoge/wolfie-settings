@@ -28,6 +28,7 @@ class Wolfie_settings {
 		//enqueue everywhere scripts
 		wp_register_script('wolfie-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js', array('jquery'));
 		wp_register_script('wolfie-switcher-js', plugin_dir_url(__FILE__) . '/assets/js/switcher.js', array('jquery'));
+		wp_register_script('wolfie-radioimage-js', plugin_dir_url(__FILE__) . '/assets/js/radioimage.js', array('jquery'));
 		wp_enqueue_style( 'wp-color-picker' ); 
 		wp_enqueue_style('wolfie-admin-css', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
 	}
@@ -150,7 +151,7 @@ class Wolfie_page {
 		$this->args = $args;
 		//localize wolfie.js for set cookie to each
 		add_action('admin_enqueue_scripts', function() use ($pageName){
-			if($_GET['page'] === $pageName) {
+			if(isset($_GET['page']) && $_GET['page'] === $pageName) {
 				$pageName = unifyString($pageName);
 				$data = ['cookieName' => $pageName ];
 				wp_localize_script( 'wolfie-js', 'wolfie', $data );
@@ -208,10 +209,17 @@ class Wolfie_page {
 									$field = 'ERROR: Add some options to your dropdown!';
 								} else {
 									$options = $array['options'];
-									$field = $ws->dropdown($array['name'], $array['desc'],$array['options']);
+									$field = $ws->dropdown($array['name'], $array['desc'], $array['options']);
 								}
 							} elseif($array['type'] === 'checkbox') {
 								$field = $ws->checkbox($array['name'], $array['desc']);
+							} elseif($array['type'] === 'radioimage') {
+								if(!empty($array['options'])) {
+									$options = $array['options'];
+									$field = $ws->radioimage($array['name'], $array['desc'], $options);
+								} else {
+									$field = 'ERROR: Add some options for your radioimage';
+								}
 							} else {
 								$field = '';
 							}
@@ -306,9 +314,24 @@ $args = [
 	'settings' => 'wolfie_settings',
 	'custom_fields' => [
 		[	
+			'type' => 'radioimage',
+			'name' => 'to-jest-radioimage',
+			'desc' => 'Wybierz Layout',
+			'options' => [
+				[
+					'image' => 'https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder',
+					'label' => 'option 1'
+				],
+				[
+					'image' => 'https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder',
+					'label' => 'option 2'
+				],
+			],
+		],
+		[
 			'type' => 'checkbox',
-			'name' => 'to-jest-checkbox',
-			'desc' => 'Czy menu sticky?',
+			'name' => 'this-is-checkbox3',
+			'desc' => 'enable sticky?',
 		],
 		[	
 			'type' => 'dropdown',
