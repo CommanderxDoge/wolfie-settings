@@ -19,18 +19,28 @@ class Wolfie_settings {
 		add_action('admin_enqueue_scripts', array( $this , 'wolfie_enqueue_admin_scripts' ));
 	}
 	public function wolfie_enqueue_admin_scripts() {
+		wp_enqueue_style('font-awesome', 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 		wp_register_script('wolfie-image-picker', plugin_dir_url(__FILE__) . '/assets/js/wolfie-image-picker.js', array('jquery'));
 		wp_register_script('wolfie-file-picker', plugin_dir_url(__FILE__) . '/assets/js/wolfie-file-picker.js', array('jquery'));
 		wp_register_script('wolfie-gallery-picker', plugin_dir_url(__FILE__) . '/assets/js/wolfie-gallery.js', array('jquery'));
-		wp_register_script('jquery-sortable', plugin_dir_url(__FILE__) . '/assets/js/jquery-ui.min.js', array('jquery','wolfie-gallery-picker'));
+		// wp_register_script('jquery-sortable', plugin_dir_url(__FILE__) . '/assets/js/jquery-ui.min.js', array('jquery','wolfie-gallery-picker'));
 		wp_register_script('wolfie-colorpicker-alpha-js', plugin_dir_url(__FILE__) . '/assets/js/wp-color-picker-alpha.min.js', array('jquery','wp-color-picker'), false, true );
 		wp_register_style('wolfie-settings-css', plugin_dir_url(__FILE__) . '/assets/css/wolfie-settings.css');
 		//enqueue everywhere scripts
 		wp_register_script('wolfie-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie.js', array('jquery'));
+		wp_register_script('wolfie-fonticonpicker-js', plugin_dir_url(__FILE__) . '/assets/js/fonticonpicker.min.js', array('jquery'));
 		wp_register_script('wolfie-switcher-js', plugin_dir_url(__FILE__) . '/assets/js/switcher.js', array('jquery'));
 		wp_register_script('wolfie-radioimage-js', plugin_dir_url(__FILE__) . '/assets/js/radioimage.js', array('jquery'));
 		wp_enqueue_style( 'wp-color-picker' ); 
 		wp_enqueue_style('wolfie-admin-css', plugin_dir_url(__FILE__) . '/assets/css/admin.css');
+		//ICONPICKER
+		wp_enqueue_style('wolfie-fonticonpicker-css', plugin_dir_url(__FILE__) . '/assets/css/iconpicker/jquery.fonticonpicker.darkgrey.min.css');
+		wp_enqueue_style('wolfie-fonticonpickerbase-css', plugin_dir_url(__FILE__) . '/assets/css/iconpicker/jquery.fonticonpicker.min.css');
+		wp_enqueue_script('iconify', 'https://code.iconify.design/1/1.0.4/iconify.min.js');
+		wp_register_style('wolfie-icons', plugin_dir_url(__FILE__) . '/assets/css/icons.css');
+		//init fields by using libraries
+		wp_register_script('wolfie-iconpicker-init', plugin_dir_url(__FILE__) . '/assets/js/init/iconpicker.js', array('jquery', 'wolfie-fonticonpicker-js'));
+		wp_register_script('wolfie-colorpicker-init', plugin_dir_url(__FILE__) . '/assets/js/init/colorpicker.js', array('jquery','wolfie-colorpicker-alpha-js'));
 	}
 	public function register_settings() {
 		register_setting( $this->settings, $this->settings );
@@ -56,67 +66,49 @@ class Wolfie_settings {
 		submit_button();
 		echo '</form>';
 	}
-	public function imagePicker($name, $label=null, $print=false){
+	public function imagePicker($name=null, $label=null, $print=false){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/image-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function filePicker($name, $label=null, $print=false){
+	public function filePicker($name=null, $label=null, $print=false){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/file-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function textPicker($name, $label=null, $print=false){
+	public function textPicker($name=null, $label=null, $print=false){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/text-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function colorPicker($name, $label=null, $print=false){
+	public function colorPicker($name=null, $label=null, $print=false){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/color-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function galleryPicker($name, $label=null, $print=false) {
+	public function galleryPicker($name=null, $label=null, $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/gallery-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}	
-	public function editor($name, $label=null, $print=false) {
+	public function editor($name=null, $label=null, $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/editor-picker.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function dropdown($name, $label=null, $options=['map some options'], $print=false) {
+	public function dropdown($name=null, $label=null, $options=['map some options'], $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/dropdown.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function checkbox($name, $label=null, $checked=null, $print=false) {
+	public function checkbox($name=null, $label=null, $checked=null, $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/checkbox.php');
-		if($print === true) {
-			echo $content;
-		}
 		return $content;
 	}
-	public function radioimage($name, $label=null, $options=null, $print=false) {
+	public function radioimage($name=null, $label=null, $options=null, $print=false) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/radioimage.php');
-		if($print === true) {
-			echo $content;
-		}
+		return $content;
+	}
+	public function iconPicker($name=null, $label=null, $options=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/helpers/helpers.php');
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/icon-picker.php');
+		return $content;
+	}
+	public function group($name=null, $label=null, $fields=null, $print=false) {
+		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/group.php');
 		return $content;
 	}
 }
@@ -143,9 +135,6 @@ class Wolfie_page {
 		} else  {
 			$this->settings = 'wolfie_settings';
 		}
-		//this is main scope here settings should be registered but not fcking working
-		$wolfie_page_settings = new Wolfie_settings();
-		$wolfie_page_settings->setSettings('wolfie_settings');
 		$this->pageName = $pageName;
 		$this->dashicon = $dashicon;
 		$this->args = $args;
@@ -220,6 +209,10 @@ class Wolfie_page {
 								} else {
 									$field = 'ERROR: Add some options for your radioimage';
 								}
+							} elseif($array['type'] === 'icon') {
+								$field = $ws->iconPicker($array['name'], $array['desc']);
+							} elseif($array['type'] === 'group') {
+								$field = $ws->group($array['name'], $array['desc'],$array['fields']);
 							} else {
 								$field = '';
 							}
@@ -313,6 +306,33 @@ $args = [
 	'tabs' => true, //optional default true
 	'settings' => 'wolfie_settings',
 	'custom_fields' => [
+		[
+			'type' => 'group',
+			'name' => 'repeater',
+			'desc' => 'Define your custom fields in repeater',
+			'fields' => [
+				[	
+					'type' => 'text',
+					'name' => 'text-in-repeater',
+					'desc' => 'Add some text',
+				],
+				[	
+					'type' => 'editor',
+					'name' => 'editor-in-repeater',
+					'desc' => 'Add some amazing content',
+				],
+			],
+		],
+		[
+			'type' => 'icon',
+			'name' => 'this-is-iconpicker1',
+			'desc' => 'Pick some icon',
+		],
+		[
+			'type' => 'icon',
+			'name' => 'this-is-iconpicker2',
+			'desc' => 'Pick some icon',
+		],
 		[	
 			'type' => 'radioimage',
 			'name' => 'to-jest-radioimage',

@@ -62,7 +62,9 @@ jQuery(document).ready(function($){
 			holder.html('');
 			input.val('');
 		})
-		holder.sortable({}).on( "sortstop", function( event, ui ) {
+		holder.sortable({
+			placeholder: 'wolfie-drop-placeholder'
+		}).on( "sortstop", function( event, ui ) {
 			var ids = getIds(holder);
 			input.val(ids);
 		});

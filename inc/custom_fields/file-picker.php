@@ -23,3 +23,6 @@ if(!empty($value)) {
 echo '</div>';
 echo '</div>';
 $content = ob_get_clean();
+if($print === true) {
+    echo $content;
+}

@@ -29,3 +29,6 @@ echo '</select>';
 echo '</label>';
 echo '</div>';
 $content = ob_get_clean();
+if($print === true) {
+    echo $content;
+}

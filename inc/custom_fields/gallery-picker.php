@@ -1,6 +1,6 @@
 <?php
 wp_enqueue_media();
-wp_enqueue_script('jquery-sortable');
+wp_enqueue_script('jquery-ui-sortable');
 wp_enqueue_style('wolfie-settings-css');
 wp_enqueue_script('wolfie-gallery-picker');
 ob_start();
@@ -21,3 +21,6 @@ if(!empty($value)) {
 echo '</div>';
 echo '</div>';
 $content = ob_get_clean();
+if($print === true) {
+    echo $content;
+}

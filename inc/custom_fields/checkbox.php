@@ -20,3 +20,6 @@ if(isset($switch_off) && $switch_off === 'off') {
 }
 echo '</div>';
 $content = ob_get_clean();
+if($print === true) {
+    echo $content;
+}

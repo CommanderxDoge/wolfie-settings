@@ -65,9 +65,6 @@ jQuery(document).ready(function($){
      $('.wolfie-tabs li[data-tab="'+cookie+'"]').trigger('click');
    }, 100)
   }
-  if( $('.colorpicker').length ){
-    $('.colorpicker').wpColorPicker();
-  }
   setTimeout(function(){
     $('.wolfie-fadeIn').fadeIn(100);
   }, 400)

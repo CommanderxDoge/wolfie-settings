@@ -15,3 +15,6 @@ wp_editor( $value, $name, array(
 echo '</label>';
 echo '</div>';
 $content = ob_get_clean();
+if($print === true) {
+    echo $content;
+}
