@@ -12,6 +12,8 @@ License: MIT
 
 define( 'WS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
+include( plugin_dir_path( __FILE__ ) . '/inc/helpers/helpers.php');
+
 class Wolfie_settings {
 	public $settings;
 	public $settingsArray;
@@ -36,10 +38,19 @@ class Wolfie_settings {
 		//ICONPICKER
 		wp_enqueue_style('wolfie-fonticonpicker-css', plugin_dir_url(__FILE__) . '/assets/css/iconpicker/jquery.fonticonpicker.darkgrey.min.css');
 		wp_enqueue_style('wolfie-fonticonpickerbase-css', plugin_dir_url(__FILE__) . '/assets/css/iconpicker/jquery.fonticonpicker.min.css');
-		wp_enqueue_script('iconify', 'https://code.iconify.design/1/1.0.4/iconify.min.js');
+		wp_register_script('wolfie-iconpicker-js', plugin_dir_url(__FILE__) . '/assets/js/init/iconpicker.js', ['jquery','wolfie-fonticonpicker-js']);
+		wp_localize_script('wolfie-iconpicker-js', 'wolf', [
+			'icons' => get_the_icon_list(),
+		]);
+		wp_localize_script('wolfie-group-js', 'wolf', [
+			'icons' => get_the_icon_list(),
+		]);
+		//ICONIFY IF U LL NEED
+		// wp_enqueue_script('iconify', 'https://code.iconify.design/1/1.0.4/iconify.min.js');
+		//GROUP JS
+		wp_register_script('wolfie-group-js', plugin_dir_url(__FILE__) . '/assets/js/wolfie-group.js', ['jquery','wolfie-iconpicker-js']);
 		wp_register_style('wolfie-icons', plugin_dir_url(__FILE__) . '/assets/css/icons.css');
 		//init fields by using libraries
-		wp_register_script('wolfie-iconpicker-init', plugin_dir_url(__FILE__) . '/assets/js/init/iconpicker.js', array('jquery', 'wolfie-fonticonpicker-js'));
 		wp_register_script('wolfie-colorpicker-init', plugin_dir_url(__FILE__) . '/assets/js/init/colorpicker.js', array('jquery','wolfie-colorpicker-alpha-js'));
 	}
 	public function register_settings() {
@@ -312,14 +323,20 @@ $args = [
 			'desc' => 'Define your custom fields in repeater',
 			'fields' => [
 				[	
+					'type' => 'icon',
+					'desc' => 'Add some amazing icons',
+				],
+				[	
 					'type' => 'text',
-					'name' => 'text-in-repeater',
 					'desc' => 'Add some text',
 				],
 				[	
 					'type' => 'editor',
-					'name' => 'editor-in-repeater',
 					'desc' => 'Add some amazing content',
+				],
+				[	
+					'type' => 'gallery',
+					'desc' => 'Add some amazing gallery',
 				],
 			],
 		],
