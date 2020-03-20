@@ -21,22 +21,12 @@ jQuery(document).ready(function($){
 				text: 'Use this image' // button label text
 			},
 			multiple: false // for multiple image selection set to true
-		}).on('select', function() { // it also has "open" and "close" events 
+		}).open().on('select', function() { // it also has "open" and "close" events 
 		var attachment = custom_uploader.state().get('selection').first().toJSON();
 		control.find('.image-holder').html('<div class="item" data-id="'+attachment.id+'"><a href="#" class="wolfie-close"></a><img class="true_pre_image" src="' + attachment.url + '" style="max-width:100px;display:block;"></div>');
 		control.find('.image').val(attachment.id);
-			/* if you sen multiple to true, here is some code for getting the image IDs
-			var attachments = frame.state().get('selection'),
-			    attachment_ids = new Array(),
-			    i = 0;
-			attachments.each(function(attachment) {
- 				attachment_ids[i] = attachment['id'];
-				console.log( attachment );
-				i++;
-			});
-			*/
-		})
-		.open();
+
+		});
 	});
 		control.find('.remove').click(function(e){
 			e.preventDefault();

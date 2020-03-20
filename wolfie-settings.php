@@ -390,11 +390,11 @@ $args = [
 				'xd2' => 'https://kwejk.pl',		  //label => value
 			],
 		],
-		[	
-			'type' => 'editor',
-			'name' => 'to-jest-editor',
-			'desc' => 'Add some text to Editor',
-		],
+		// [	
+		// 	'type' => 'editor',
+		// 	'name' => 'to-jest-editor',
+		// 	'desc' => 'Add some text to Editor',
+		// ],
 		[	
 			'type' => 'text',
 			'name' => 'to-jest-text',

@@ -22,7 +22,7 @@ jQuery(document).ready(function($){
 		var add = control.find('.add')
 		var remove = control.find('.remove')
 		var input = control.find('input')
-		add.click(function(e){
+		add.off().click(function(e){
 			e.preventDefault();
 			custom_uploader = wp.media({
 				title: 'Insert images',
@@ -33,7 +33,7 @@ jQuery(document).ready(function($){
 				text: 'Use this images' // button label text
 			},
 			multiple: true // for multiple images selection set to true
-		}).on('select', function() { // it also has "open" and "close" events 
+		}).open().on('select', function() { // it also has "open" and "close" events 
 		var currentIds = input.val().split(',').map(Number);
 		var attachment = custom_uploader.state().get('selection').first().toJSON();
 		/* if you sen multiple to true, here is some code for getting the images IDs */
@@ -55,7 +55,7 @@ jQuery(document).ready(function($){
 		});
 		var idsArr = currentIds.concat(attachment_ids);
 		input.val(idsArr);
-	}).open();
+	});
 	});
 		remove.click(function(e){
 			e.preventDefault();
