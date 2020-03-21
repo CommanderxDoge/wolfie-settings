@@ -5,6 +5,18 @@ jQuery(document).ready(function($){
 		newVal = newVal.replace(/,,/, ',');
 		return newVal;
 	}
+	function initColor(t) {
+		var group = t.closest('.wolfie-group-holder')
+		var addedGroup = group.next();
+		var color = addedGroup.find('.color-field');
+		var colorHolder = color.children('.wolfie-form-control');
+		var colorPicker = color.find('.colorpicker').detach().appendTo(colorHolder);
+		colorPicker.removeAttr('name');
+		colorPicker.removeAttr('value');
+		colorHolder.children('div').remove();
+		colorPicker.wpColorPicker();
+		console.log(colorHolder);
+	}
 	function initEditor(t){
 		var group = t.closest('.wolfie-group-holder')
 		var addedGroup = group.next();
@@ -14,8 +26,21 @@ jQuery(document).ready(function($){
 		textarea.removeAttr('style').removeAttr('id');
 		editorHolder.children('div').remove();
 		tinymce.init({selector:'.editor-field textarea'})
-
 	}
+	function initEditors(){
+		var group = $('.wolfie-group')
+		var editor = group.find('.editor-field');
+		editor.each(function(){
+			var editorHolder = $(this).children('.wolfie-form-control');
+			var textarea = $(this).find('textarea').detach().appendTo(editorHolder);
+			textarea.removeAttr('style');
+			textarea.removeAttr('id');
+			textarea.removeAttr('name');
+			editorHolder.children('div').remove();
+		})
+		tinymce.init({selector:'.editor-field textarea'})
+	}
+	initEditors();
 	function initImage(){
 		$('.wolfie-group .image').each(function(){
 			var control = $(this).closest('.wolfie-form-control')
@@ -151,7 +176,7 @@ jQuery(document).ready(function($){
 	}
 	$('.wolfie-group').each(function(){
 		var repeater = $(this);
-		var input = repeater.find('textarea');
+		var input = repeater.find('.group-input');
 		var group = repeater.find('.wolfie-group-holder');
 		var add = repeater.find('.wolfie-add');
 		var remove = repeater.find('.wolfie-remove');
@@ -166,6 +191,7 @@ jQuery(document).ready(function($){
 			initGallery();
 			initEditor(t);
 			initImage();
+			initColor(t);
 		}
 		function removeGroup(){
 			var t = $(this);
@@ -174,46 +200,73 @@ jQuery(document).ready(function($){
 		}
 		function saveGroup(e){
 			e.preventDefault();
-			var data = {};
+			// define json structure !IMPORTANT AS FCK!
+			var data = {"fields": []};
 			var rows = $(this).siblings('.wolfie-group-holder')
-			rows.each(function(i){
+			rows.each(function(index){
 				t = $(this);
-				console.log('row: '+ i)
+				console.log('row: '+ index);
+				var col = {};
 				var cols = t.children('.wolfie-col');
 				cols.each(function(i){
 					t = $(this);
 					var editorID = t.find('textarea').attr('id');
 					var textVal = t.find('.text').val();
 					var iconVal = t.find('.icon-picker').val()
+					var colorVal = t.find('.colorpicker').val()
 					var galleryVal = t.find('.gallery-wolfie').val();
-					console.log(typeof(textVal))
-					if( textVal === 'undefined') {
-						console.log(textVal)
+					var dropdownVal = t.find('.dropdown').val();
+					var datepickerVal = t.find('.datepicker').val();
+					if( typeof(textVal) !== 'undefined') {
+						col.text = textVal;
 					} else {
-						console.log('col '+i+' textVal: '+ textVal)
-						// data['text'] = textval;
+						textVal = false;
 					}
 					if(typeof(iconVal) !== 'undefined') {
-						console.log('col '+i+' iconVal: '+iconVal)
-						// groupData.fields.icon = 'iconVal'
+						col.icon = iconVal;
+					} else  {
+						iconVal = false;
 					}
 					if(typeof(galleryVal) !== 'undefined') {
-						console.log('col '+i+' galleryVal: '+galleryVal)
-						// groupData.fields.gallery = 'galleryVal'
+						col.gallery = galleryVal;
+					} else  {
+						galleryVal = false;
 					}
 					if(typeof(editorID) !== 'undefined' ) {
 						var editorVal = tinymce.get(editorID).getContent();
-						console.log('col '+i+' editorContent: '+editorVal)
-						// groupData.fields.editor = 'editorVal'
+						col.editor = editorVal;
+					} else {
+						editorVal = false;
 					}
-				})
-				// data = fields[i]
-			})
+					if(typeof(colorVal) !== 'undefined' ) {
+						col.color = colorVal;
+					} else {
+						colorVal = false;
+					}
+					if(typeof(dropdownVal) !== 'undefined' ) {
+						col.dropdown = dropdownVal;
+					} else {
+						dropdown = false;
+					}
+					if(typeof(datepicker) !== 'undefined' ) {
+						col.datepicker = datepickerVal;
+					} else {
+						datepicker = false;
+					}
+				}) // END OF COL loop
+				data.fields[index] = col
+			}) // END OF ROW loop
 			var json = JSON.stringify(data);
 			console.log(json);
+			input.html(json);
 		}
 		repeater.off().on('click', '.wolfie-add', cloneGroup )
 		repeater.on('click', '.wolfie-remove', removeGroup)
 		repeater.on('click', '.save-group', saveGroup)
+		$('form').submit(function(){
+			$('.save-group').each(function(){
+				$(this).trigger('click');	
+			})
+		})
 	})
 });

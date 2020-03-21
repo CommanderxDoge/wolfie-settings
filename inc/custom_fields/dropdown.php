@@ -1,11 +1,13 @@
 <?php
 wp_enqueue_style('wolfie-settings-css');
-ob_start();
+$name = (isset($name)) ? $name : '';
+$nameInline = (isset($name)) ? 'name="'.$this->settings.'['.$name.']"' : '' ;
 $value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
-$name = $this->settings.'['.$name.']';
+$value = (isset($groupVal)) ? $groupVal : $value ;
+ob_start();
 echo '<div class="wolfie-form-control">';
 echo '<label>'.$label;
-echo '<select style="max-width:220px;width:100%;" type="select" name="'.$name.'" value="'.$value.'">';
+echo '<select class="dropdown" style="max-width:220px;width:100%;" type="select" '.$nameInline .' value="'.$value.'">';
 if(!empty($options)) {
 	if(array_keys($options) !== range(0, count($options) - 1)) { //check if array is associative
 		foreach($options as $label => $selectVal ) {

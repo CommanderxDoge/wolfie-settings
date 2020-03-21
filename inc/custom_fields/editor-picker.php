@@ -1,9 +1,11 @@
 <?php
 wp_enqueue_style('wolfie-settings-css');
-ob_start();
-$value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
-$textarea_name = (isset($name)) ? $this->settings.'['.$name.']' : '' ;
 $name = (isset($name)) ? $name : uniqid('repeater_', false);
+$nameInline = (isset($name)) ? 'name="'.$this->settings.'['.$name.']"' : '' ;
+$value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
+$value = (isset($groupVal)) ? $groupVal : $value ;
+$textarea_name = (isset($name)) ? $this->settings.'['.$name.']' : '' ;
+ob_start();
 echo '<div class="wolfie-form-control">';
 echo '<label>'.$label.'</label>';
 wp_editor( $value, $name, array(

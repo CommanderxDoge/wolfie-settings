@@ -77,43 +77,43 @@ class Wolfie_settings {
 		submit_button();
 		echo '</form>';
 	}
-	public function imagePicker($name=null, $label=null, $print=false){
+	public function imagePicker($name=null, $label=null, $print=false, $groupVal=null){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/image-picker.php');
 		return $content;
 	}
-	public function filePicker($name=null, $label=null, $print=false){
+	public function filePicker($name=null, $label=null, $print=false, $groupVal=null){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/file-picker.php');
 		return $content;
 	}
-	public function textPicker($name=null, $label=null, $print=false){
+	public function textPicker($name=null, $label=null, $print=false, $groupVal=null){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/text-picker.php');
 		return $content;
 	}
-	public function colorPicker($name=null, $label=null, $print=false){
+	public function colorPicker($name=null, $label=null, $print=false, $groupVal=null){
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/color-picker.php');
 		return $content;
 	}
-	public function galleryPicker($name=null, $label=null, $print=false) {
+	public function galleryPicker($name=null, $label=null, $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/gallery-picker.php');
 		return $content;
 	}	
-	public function editor($name=null, $label=null, $print=false) {
+	public function editor($name=null, $label=null, $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/editor-picker.php');
 		return $content;
 	}
-	public function dropdown($name=null, $label=null, $options=['map some options'], $print=false) {
+	public function dropdown($name=null, $label=null, $options=['map some options'], $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/dropdown.php');
 		return $content;
 	}
-	public function checkbox($name=null, $label=null, $checked=null, $print=false) {
+	public function checkbox($name=null, $label=null, $checked=null, $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/checkbox.php');
 		return $content;
 	}
-	public function radioimage($name=null, $label=null, $options=null, $print=false) {
+	public function radioimage($name=null, $label=null, $options=null, $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/radioimage.php');
 		return $content;
 	}
-	public function iconPicker($name=null, $label=null, $options=null, $print=false) {
+	public function iconPicker($name=null, $label=null, $options=null, $print=false, $groupVal=null) {
 		include( plugin_dir_path( __FILE__ ) . '/inc/helpers/helpers.php');
 		include( plugin_dir_path( __FILE__ ) . '/inc/custom_fields/icon-picker.php');
 		return $content;
@@ -234,7 +234,7 @@ class Wolfie_page {
 				}
 				wp_enqueue_script('wolfie-js');
 				//set html on page
-				echo '<div style="display:none;" class="wolfie-container wolfie-fadeIn">';
+				echo '<div style="display:none;padding-left:0;padding-right:30px;" class="wolfie-container wolfie-fadeIn">';
 				echo '<h1>'. $pageName .'</h1>';
 				echo '<div class="wolfie-row">';
 				if(is_tabs($args)) {					
@@ -253,7 +253,7 @@ class Wolfie_page {
 					}
 					echo '</div>';
 				}
-				echo '<div class="wolfie-col col-7">';
+				echo '<div class="wolfie-col col-8">';
 				echo '<div class="wolfie-settings">';
 				$ws->startForm();
 				if(is_fields($args)) {
@@ -274,7 +274,7 @@ class Wolfie_page {
 				$ws->endForm();
 				echo '</div>';
 				echo '</div>';
-				echo '<div class="wolfie-col col-3">'; ?>
+				echo '<div class="wolfie-col col-2">'; ?>
 				<div class="wolfie-information">
 					<div class="box">
 						<div class="wolfie-header">
@@ -287,7 +287,7 @@ class Wolfie_page {
 									<img class="owner" src="<?php echo WS_PLUGIN_URL . 'assets/img/pawel-witek.jpg' ?>">
 								</div><!-- /owner-wrapper -->
 							</div><!-- /wolfie-row -->
-							<p style="text-align: right;">Paweł Witek CEO at <a href="https://wolfiesites.com">wolfiesites.com</a></p>
+							<p style="text-align: right;">Paweł Witek CEO at <a href="http://wolfiesites.com/">wolfiesites.com</a></p>
 						</div><!-- /header -->
 					</div><!-- /box -->
 				</div><!-- /wolfie-main-options -->
@@ -327,6 +327,38 @@ $args = [
 					'desc' => 'Add some amazing icons',
 				],
 				[	
+					'type' => 'dropdown',
+					'desc' => 'Add some text',
+					'options' => [
+						'gogle2' => 'https://google.pl',  
+						'wolfie2' => 'https://wolfie.com', 
+						'xd2' => 'https://kwejk.pl',		 
+					],
+				],
+				[	
+					'type' => 'editor',
+					'desc' => 'Add some amazing content',
+				],
+				[	
+					'type' => 'gallery',
+					'desc' => 'Add some amazing gallery',
+				],
+				[	
+					'type' => 'color',
+					'desc' => 'Add some color',
+				],
+			],
+		],
+		[
+			'type' => 'group',
+			'name' => 'repeater_second',
+			'desc' => 'Define your custom fields in repeater',
+			'fields' => [
+				[	
+					'type' => 'icon',
+					'desc' => 'Add some amazing icons',
+				],
+				[	
 					'type' => 'text',
 					'desc' => 'Add some text',
 				],
@@ -337,6 +369,10 @@ $args = [
 				[	
 					'type' => 'gallery',
 					'desc' => 'Add some amazing gallery',
+				],
+				[	
+					'type' => 'color',
+					'desc' => 'Add some color',
 				],
 			],
 		],
@@ -375,9 +411,9 @@ $args = [
 			'name' => 'to-jest-dropdown',
 			'desc' => 'choose some options',
 			'options' => [
-				'google' => 'https://google.pl',  //label => value
-				'wolfie' => 'https://wolfie.com', //label => value
-				'xd' => 'https://kwejk.pl',		  //label => value
+				'google' => 'https://google.pl',  
+				'wolfie' => 'https://wolfie.com', 
+				'xd' => 'https://kwejk.pl',		  
 			],
 		],
 		[	
@@ -385,16 +421,11 @@ $args = [
 			'name' => 'to-jest-dropdown2',
 			'desc' => 'choose some options',
 			'options' => [
-				'gogle2' => 'https://google.pl',  //label => value
-				'wolfie2' => 'https://wolfie.com', //label => value
-				'xd2' => 'https://kwejk.pl',		  //label => value
+				'gogle2' => 'https://google.pl',  
+				'wolfie2' => 'https://wolfie.com', 
+				'xd2' => 'https://kwejk.pl',		 
 			],
 		],
-		// [	
-		// 	'type' => 'editor',
-		// 	'name' => 'to-jest-editor',
-		// 	'desc' => 'Add some text to Editor',
-		// ],
 		[	
 			'type' => 'text',
 			'name' => 'to-jest-text',
@@ -435,12 +466,17 @@ $args = [
 	'dashicon' => plugin_dir_url(__FILE__) . 'assets/img/wolf.png'
 ];
 $pw->setPage('Wolfie Settings', $args);
+// $ws->printSettings();
+// exit;
 //above default page settings
 
 
 /*
 * Below new custom pages
 */
+
+
+/*
 $pw = new Wolfie_page();
 $args = [
 	'page_name' => 'Incolt Settings',
@@ -462,3 +498,4 @@ $args = [
 	''
 ];
 $pw->setPage('Incolt Settings', $args);
+*/

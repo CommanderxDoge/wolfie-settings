@@ -1,11 +1,13 @@
 <?php
 wp_enqueue_style('wolfie-settings-css');
-$name = (isset($name)) ? 'name="'.$this->settings.'['.$name.']"' : '' ;
-ob_start();
+$name = (isset($name)) ? $name : '';
+$nameInline = (isset($name)) ? 'name="'.$this->settings.'['.$name.']"' : '' ;
 $value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' ;
+$value = (isset($groupVal)) ? $groupVal : $value ;
+ob_start();
 echo '<div class="wolfie-form-control">';
 echo '<label>'.$label;
-echo '<input class="text" '.$name.' value="'.$value.'" type="text">';
+echo '<input class="text" '.$nameInline.' value="'.$value.'" type="text">';
 echo '</label>';
 echo '</div>';
 $content = ob_get_clean();
