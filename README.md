@@ -1,7 +1,7 @@
 # wolfie-settings
 Free Wordpress plugin to create settings / options pages with custom fields build in
 
-** To set up new settings page: download this plugin and activate than paste code below to your functions.php: **
+**To set up new settings page: download this plugin and activate than paste code below to your functions.php:**
 
 ```php
 $pw = new Wolfie_page();
