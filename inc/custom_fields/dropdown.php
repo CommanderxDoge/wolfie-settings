@@ -6,7 +6,7 @@ $value = (isset($this->settingsArray[$name]))? $this->settingsArray[$name] : '' 
 $value = (isset($groupVal)) ? $groupVal : $value ;
 ob_start();
 echo '<div class="wolfie-form-control">';
-echo '<label>'.$label;
+echo '<label>'.$label.'</label>';
 echo '<select class="dropdown" style="max-width:220px;width:100%;" type="select" '.$nameInline .' value="'.$value.'">';
 if(!empty($options)) {
 	if(array_keys($options) !== range(0, count($options) - 1)) { //check if array is associative
@@ -28,7 +28,6 @@ if(!empty($options)) {
 	}
 }
 echo '</select>';
-echo '</label>';
 echo '</div>';
 $content = ob_get_clean();
 if($print === true) {

@@ -1,21 +1,27 @@
 body::-webkit-scrollbar {
-  display: none;
+	display: none;
 }
 body {
-  -ms-overflow-style: none;
+	-ms-overflow-style: none;
 }
 .wolfie-fadeIn {
 	display: none;
 }
+.wolfie-container .dropdown, .wolfie-container input, .wolfie-container textarea, .wolfie-container .selector-popup, .wolfie-container .selected-icon, .wolfie-container .selector-button, .wolfie-container .icon-category-select, .wolfie-container .fip-icons-container, .wolfie-container .wp-picker-container *{ 
+	border-radius: 0px !important;
+} 
 button {
 	cursor:pointer;
 }
 .wolfie-form-control {
-	padding: 15px 0px;
-	border-bottom: 1px solid lightgrey;
+	padding: 20px 0px;
+	border-bottom: 1px solid #32373c;
 }
 .wolfie-form-control label {
 	display: block;
+	font-size: 18px;
+	line-height: 20px;
+	margin-bottom: 15px;
 }
 .file-holder, .images-holder, .image-holder {
 	display: flex;
@@ -23,7 +29,6 @@ button {
 	position: relative;
 }
 .wolfie-drop-placeholder {
-	/*background-color:red;*/
 	overflow:hidden;
 	position: relative;
 	background-image:url('../img/wolf.png');
@@ -42,7 +47,7 @@ button {
 	position: absolute;
 	width: 100%;
 	height:100%;
-	background:rgba(0,191,191,0.8);
+	background:rgba(153,154,149,0.6);
 	z-index: 1;
 }
 .file-holder .item, .images-holder .item, .image-holder .item {
@@ -53,7 +58,7 @@ button {
 	margin-right: 5px;
 	margin-top: 5px;
 	position: relative;
-	border: 1px solid lightgrey;
+	border: 1px solid #32373c;
 }
 .file-holder img:not(.file), .images-holder img, .image-holder img {
 	height: 100%;
@@ -66,7 +71,7 @@ button {
 	align-items: center;
 	justify-content: flex-end;
 	position: relative;
-	border: 1px solid lightgrey;
+	border: 1px solid #32373c;
 }
 .file-holder .item img {
 	object-fit: contain;
@@ -85,10 +90,11 @@ button {
 	padding: 5px;
 	white-space: wrap;
 	overflow-wrap: break-word;
-	background: lightgrey;
+	background: #32373c;
 	line-height: 10px;
 	font-size: 10px;
 	position: relative;
+	color: white;
 }
 .wolfie-close {
 	transition:0.3s;
@@ -138,7 +144,6 @@ button {
 	display: flex;
 	justify-content: space-between;
 	width: calc(100% + 15px);
-
 }
 .wolfie-group-holder {
 	position: relative;
@@ -147,14 +152,49 @@ button {
 	align-items: flex-end;
 	justify-content: space-between;
 	padding-right: 50px;
+	padding-top: 40px;
+	padding-left:20px;
+	padding-right:40px;
+	border: 1px solid #32373c;
+	margin-top:20px;
+}
+.wolfie-group-holder > header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	line-height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	background: #252525;
+	padding: 0 20px;
+	box-sizing: border-box;
+}
+.wolfie-group-holder > header i {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor:pointer;
+	color: white;
+}
+.wolfie-group-holder > header h3 {
+	margin: 0;
+	color: white;
+}
+.wolfie-group-holder > header .number{
+
 }
 .wolfie-group-holder .wolfie-actions {
 	position: absolute;
-	right: -20px;
+	right: -10px;
 	bottom: 30px;
 	margin:auto;
 	height: 20px;
 	transform: rotate(-90deg);
+	transition: 0.5s;
 }
 .wolfie-group-holder .wolfie-actions i {
 	margin: 2px;
@@ -163,8 +203,21 @@ button {
 	color: white;
 	border-radius: 100%;
 }
+.wolfie-group-holder .fields-holder {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.wolfie-group-holder.collapsed .wolfie-actions {
+	position: absolute;
+	right: 63px;
+	top: 30px;
+	margin: auto;
+	height: 20px;
+	transform: rotate(0deg);
+}
 .wolfie-group-holder .wolfie-actions i.wolfie-add {
-	background: cyan;
+	background: #2ea2cc;
 }
 .wolfie-group-holder .wolfie-actions i.wolfie-remove {
 	background:#dc4545;
@@ -238,25 +291,30 @@ button {
 	padding:0;
 }
 .wolfie-tabs li.active {
-	background:blue !important;
+	background:#252525 !important;
 	color:white !important;
 }
 .wolfie-tabs li {
 	margin-bottom: 0px;
 	transition:0.3s;
-	background:lightgrey;
+	background: #dedede;
 	cursor: pointer;
 	padding: 8px 20px;
 	border:1px solid black;
 	border-top:none;
-	text-align:center;
+	text-align:left;
 	color:black;
+	font-size: 16px;
+	padding-left: 40px;
+}
+.wolfie-tabs li:first-letter {
+	text-transform: uppercase;
 }
 .wolfie-tabs li:first-child {
 	border-top: 1px solid black;
 }
 .wolfie-tabs li:hover {
-	background: lightblue;
+	background: #adeafb;
 	color:black;
 }
 .wolfie_tab_container {
@@ -267,7 +325,19 @@ button {
 	display: block;
 }
 .tab-title {
-	margin-top:0;
+	font-size: 22px;
+	line-height: 24px;
+	text-transform: initial;
+	margin-top:15px;
+	margin-bottom: 10px;
+}
+.wolfie-container .text {
+	border-radius: 0;
+	border: 1px solid #32373c;
+	padding: ;
+}
+.tab-title:first-letter {
+	text-transform: uppercase;
 }
 .text {
 	display: block;
@@ -283,9 +353,13 @@ button {
 }
 .wolfie-information .box {
 	max-width: 400px;
-	background: lightblue;
+	background: #a7a8a3;
 	box-sizing: border-box;
 	padding: 10px 20px;
+	color: white;
+}
+.wolfie-information .box a {
+	color: white;
 }
 .wolfie-information .wolfie-header .wolfie-row {
 	display: flex;
@@ -377,11 +451,12 @@ input:focus + .slider {
 	margin-right: 10px;
 	height: 150px;
 	width: 150px;
-	border: 3px solid lightgrey;
+	border: 3px solid #a7a8a3;
 	cursor: pointer;
+	transition: 0.5s;
 }
 .radioimage-holder .radioimage:hover {
-	border-color: lightblue;
+	border-color: #adeafb;
 }
 .radioimage-holder .radioimage img {
 	position: absolute;
@@ -404,7 +479,7 @@ input:focus + .slider {
 	top: 2px;
 }
 .radioimage-holder .radioimage.active {
-	border: 3px solid blue;
+	border: 3px solid #2ea2cc;
 }
 .icons-selector .selector-popup  {
 	z-index: 99;
@@ -414,4 +489,24 @@ input:focus + .slider {
 }
 .icons-selector.selector-popup-wrap, .icons-selector .selector-popup-wrap {
 	z-index: 999991;
+}
+.wolfie-container .add, .save-group {
+	all: unset;
+	text-align: center;
+	min-width: 80px !important;
+	background: #2ea2cc;
+	color: white;
+	padding: 8px 10px;
+	cursor:pointer;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.wolfie-container .remove {
+all:unset;
+background: red;
+padding: 8px 20px;
+cursor: pointer;
+color: white;
+font-weight: bold;
+text-transform: uppercase;
 }

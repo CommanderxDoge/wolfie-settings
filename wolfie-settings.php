@@ -355,8 +355,8 @@ $args = [
 			'desc' => 'Define your custom fields in repeater',
 			'fields' => [
 				[	
-					'type' => 'icon',
-					'desc' => 'Add some amazing icons',
+					'type' => 'text',
+					'desc' => 'Add another amazing text',
 				],
 				[	
 					'type' => 'text',
@@ -410,11 +410,7 @@ $args = [
 			'type' => 'dropdown',
 			'name' => 'to-jest-dropdown',
 			'desc' => 'choose some options',
-			'options' => [
-				'google' => 'https://google.pl',  
-				'wolfie' => 'https://wolfie.com', 
-				'xd' => 'https://kwejk.pl',		  
-			],
+			'options' => ws_get_menus(),
 		],
 		[	
 			'type' => 'dropdown',
