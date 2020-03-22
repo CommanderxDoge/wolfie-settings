@@ -1,27 +1,27 @@
 # wolfie-settings
 Free Wordpress plugin to create settings / options pages with builded custom fields
 
-#To set up new settings page: download this plugin and activate than paste code below to your functions.php:
+# To set up new settings page: download this plugin and activate than paste code below to your functions.php:
 
-```
+```php
 $pw = new Wolfie_page();
 $args = [
 	'page_name' => 'Wolfie Settings', //required
+	'settings' => 'wolfie_settings', //required unique
 	'page_body' => true, //optional if set to false options wont show. You can use action hook wolfie_page_['page_name']
 	'tabs' => true, //optional default true
-	'settings' => 'wolfie_settings',
 	'custom_fields' => [
 		[
-			'type' => 'group',
-			'name' => 'repeater',
+			'type' => 'group',	//required
+			'name' => 'repeater', //required unique
 			'desc' => 'Define your custom fields in repeater',
-			'fields' => [
+			'fields' => [     //required
 				[	
-					'type' => 'icon',
+					'type' => 'icon', //required 
 					'desc' => 'Add some amazing icons',
 				],
 				[	
-					'type' => 'dropdown',
+					'type' => 'dropdown', //required 
 					'desc' => 'Add some text',
 					'options' => [
 						'gogle2' => 'https://google.pl',  
@@ -30,24 +30,24 @@ $args = [
 					],
 				],
 				[	
-					'type' => 'editor',
+					'type' => 'editor', //required 
 					'desc' => 'Add some amazing content',
 				],
 				[	
-					'type' => 'gallery',
+					'type' => 'gallery', //required 
 					'desc' => 'Add some amazing gallery',
 				],
 				[	
-					'type' => 'color',
+					'type' => 'color', //required 
 					'desc' => 'Add some color',
 				],
 			],
 		],
 		[
-			'type' => 'group',
-			'name' => 'repeater_second',
+			'type' => 'group', //required
+			'name' => 'repeater_second', //required unique
 			'desc' => 'Define your custom fields in repeater',
-			'fields' => [
+			'fields' => [ //required 
 				[	
 					'type' => 'text',
 					'desc' => 'Add another amazing text',
@@ -71,20 +71,20 @@ $args = [
 			],
 		],
 		[
-			'type' => 'icon',
-			'name' => 'this-is-iconpicker1',
+			'type' => 'icon', //required 
+			'name' => 'this-is-iconpicker1', //required unique
 			'desc' => 'Pick some icon',
 		],
 		[
-			'type' => 'icon',
-			'name' => 'this-is-iconpicker2',
+			'type' => 'icon', //required 
+			'name' => 'this-is-iconpicker2', //required unique
 			'desc' => 'Pick some icon',
 		],
 		[	
-			'type' => 'radioimage',
-			'name' => 'to-jest-radioimage',
+			'type' => 'radioimage', //required 
+			'name' => 'to-jest-radioimage', //required unique
 			'desc' => 'Wybierz Layout',
-			'options' => [
+			'options' => [ //required 
 				[
 					'image' => 'https://api.fnkr.net/testimg/350x200/00CED1/FFF/?text=img+placeholder',
 					'label' => 'option 1'
@@ -96,19 +96,19 @@ $args = [
 			],
 		],
 		[
-			'type' => 'checkbox',
-			'name' => 'this-is-checkbox3',
+			'type' => 'checkbox', //required 
+			'name' => 'this-is-checkbox3', //required unique
 			'desc' => 'enable sticky?',
 		],
 		[	
-			'type' => 'dropdown',
-			'name' => 'to-jest-dropdown',
+			'type' => 'dropdown', //required 
+			'name' => 'to-jest-dropdown', //required unique
 			'desc' => 'choose some options',
 			'options' => ws_get_menus(),
 		],
 		[	
-			'type' => 'dropdown',
-			'name' => 'to-jest-dropdown2',
+			'type' => 'dropdown', //required 
+			'name' => 'to-jest-dropdown2', //required unique
 			'desc' => 'choose some options',
 			'options' => [
 				'gogle2' => 'https://google.pl',  
@@ -116,41 +116,41 @@ $args = [
 				'xd2' => 'https://kwejk.pl',		 
 			],
 		],
-		[	
-			'type' => 'text',
-			'name' => 'to-jest-text',
+		[
+			'type' => 'text', //required 
+			'name' => 'to-jest-text', //required unique
 			'desc' => 'Add some text',
 		],
 		[	
-			'type' => 'color',
-			'name' => 'colorpicker',
+			'type' => 'color', //required 
+			'name' => 'colorpicker', //required unique
 			'desc' => 'Pick some color',
 		],
 		[	
-			'type' => 'whatever',
-			'name' => 'colorpicker2',
+			'type' => 'whatever', //required 
+			'name' => 'colorpicker2', //required unique
 			'desc' => 'Pick some color2',
 		],
 		[	
-			'type' => 'image',
-			'name' => 'test',
+			'type' => 'image',  //required 
+			'name' => 'test', //required unique
 			'desc' => 'Add image for the ulotka',
 		],
 		[	
-			'type' => 'file',
-			'name' => 'test2',
+			'type' => 'file', //required 
+			'name' => 'test2', //required unique
 			'desc' => 'Add image for the ulotka 2', //optional
 		],
 		[	
-			'type' => 'gallery',
-			'name' => 'test3',
+			'type' => 'gallery', //required 
+			'name' => 'test3', //required unique
 			'desc' => 'Add images to display on kontakt page', //optional
 		],
 		[	
-			'type' => 'text',
-			'name' => 'text-niesamowity',
+			'type' => 'text', //required 
+			'name' => 'text-niesamowity', //required unique
 			'desc' => 'Add some text',
-			'tab' => 'typography'
+			'tab' => 'typography' //define tab in order to put this custom field to tab called typography
 		],
 	],
 	'dashicon' => plugin_dir_url(__FILE__) . 'assets/img/wolf.png'
@@ -159,7 +159,7 @@ $pw->setPage('Wolfie Settings', $args);
 
 ```
 
-#You can create easly multiple pages by creating new instance of a class Wolfie_page:
+# You can create easly multiple pages by creating new instance of a class Wolfie_page:
 
 1. create new instance of a page: $new_page = new Wolfie_page();
 
@@ -173,16 +173,16 @@ $pw->setPage('Wolfie Settings', $args);
 	- settings name 
 
 5. after this you can retrieve settings from the DataBase with wp function: 
-```
+```php
         $settings = get_option('wolfie_settings');
 ```
 where 'wolfie_settings' is your settings name;
 
-#Map Custom Fields by changing pasted array above:
+# Map Custom Fields by changing pasted array above:
 
 Here will show up table of all settings soon...
 
-#Custom Fields Supported:
+# Custom Fields Supported:
 1. Group field (repeater) / all fields below u can define to group
 2. icon picker
 3. text input
@@ -195,7 +195,7 @@ Here will show up table of all settings soon...
 10. Tabs generating on settings pages.
 
 
-#Future functinalities:
+# Future functinalities:
 1. datepicker
 2. easy printing settings on front by custom functions
 3. adding subpage to "settings" which provide defining options without code knowledge for each settings page.
