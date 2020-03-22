@@ -1,7 +1,7 @@
 # wolfie-settings
-Free Wordpress plugin to create settings / options pages with builded custom fields
+Free Wordpress plugin to create settings / options pages with custom fields build in
 
-# To set up new settings page: download this plugin and activate than paste code below to your functions.php:
+## To set up new settings page: download this plugin and activate than paste code below to your functions.php:
 
 ```php
 $pw = new Wolfie_page();
@@ -159,7 +159,7 @@ $pw->setPage('Wolfie Settings', $args);
 
 ```
 
-# You can create easly multiple pages by creating new instance of a class Wolfie_page:
+## You can create easly multiple pages by creating new instance of a class Wolfie_page:
 
 1. create new instance of a page: $new_page = new Wolfie_page();
 
@@ -178,11 +178,11 @@ $pw->setPage('Wolfie Settings', $args);
 ```
 where 'wolfie_settings' is your settings name;
 
-# Map Custom Fields by changing pasted array above:
+##Map Custom Fields by changing pasted array above:
 
 Here will show up table of all settings soon...
 
-# Custom Fields Supported:
+## Custom Fields Supported:
 1. Group field (repeater) / all fields below u can define to group
 2. icon picker
 3. text input
@@ -195,7 +195,7 @@ Here will show up table of all settings soon...
 10. Tabs generating on settings pages.
 
 
-# Future functinalities:
+## Future functinalities:
 1. datepicker
 2. easy printing settings on front by custom functions
 3. adding subpage to "settings" which provide defining options without code knowledge for each settings page.
